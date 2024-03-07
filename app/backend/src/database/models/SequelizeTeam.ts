@@ -17,13 +17,13 @@ SequelizeTeam.init({
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    autoIncrement: true,
     primaryKey: true,
+    autoIncrement: true,
   },
   teamName: {
     type: DataTypes.STRING,
-    field: 'team_name',
     allowNull: false,
+    field: 'team_name',
   },
 }, {
   sequelize: db,
