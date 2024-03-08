@@ -37,4 +37,18 @@ describe('GET /teams', function () {
     expect(response.status).to.equal(200);
     expect(response.body).to.deep.equal(teams);
   });
+
+  it('should return a team by id', async function () {
+    const team = {
+      "id": 1,
+      "teamName": "Avaí/Kindermann"
+    };
+    const teamStub = SequelizeTeam.build(team);
+    sinon.stub(SequelizeTeam, 'findByPk').resolves(teamStub);
+
+    const response = await chai.request(app).get('/teams/1');
+
+    expect(response.status).to.equal(200);
+    expect(response.body).to.deep.equal(team);
+  });
 });
