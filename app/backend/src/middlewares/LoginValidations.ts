@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import JWT from '../utils/JWT';
 import mapStatusHTTP from '../utils/mapStatusHTTP';
 
 export default class LoginValidations {
@@ -19,6 +20,22 @@ export default class LoginValidations {
       return res.status(mapStatusHTTP.unauthorized).json({ message: 'Invalid email or password' });
     }
 
+    next();
+  }
+
+  static async validateToken(req: Request, res: Response, next: NextFunction) {
+    const baererToken = req.headers.authorization;
+
+    if (!baererToken) {
+      return res.status(mapStatusHTTP.unauthorized).json({ message: 'Token not found' });
+    }
+    const token = baererToken.split(' ')[1];
+    const validToken = await JWT.verify(token);
+
+    if (validToken === 'Token must be a valid token') {
+      return res.status(mapStatusHTTP.unauthorized).json({ message: validToken });
+    }
+    res.locals.payload = validToken;
     next();
   }
 }
