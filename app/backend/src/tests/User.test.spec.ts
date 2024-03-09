@@ -7,7 +7,7 @@ import { app } from '../app';
 import SequelizeUser from '../database/models/SequelizeUser';
 import JWT from '../utils/JWT';
 import LoginValidations from '../middlewares/LoginValidations';
-import { validLogin, userRegistered } from './mocks/user.mocks';
+import { loginMock } from './mocks/user.mocks';
 
 
 chai.use(chaiHttp);
@@ -35,14 +35,50 @@ describe('POST /login', function () {
     expect(response.status).to.equal(404);
   });
 
-  // it('valid login', async function () {
-  //   sinon.stub(SequelizeUser, 'findOne').resolves(userRegistered as any);
-  //   sinon.stub(JWT, 'sign').resolves('validToken');
+  // it('should return a token', async function () {
+  //   const loginStub = SequelizeUser.build(loginMock);
+  //   sinon.stub(SequelizeUser, 'findOne').resolves(loginStub);
 
-  //   const response = await chai.request(app).post('/login').send(validLogin);
+  //   const httpRequestBody = {
+  //     email: 'admin@admin.com',
+  //     password: 'secret_admin'
+  //   };
+
+  //   const response = await chai.request(app).post('/login').send(httpRequestBody);
 
   //   expect(response.status).to.equal(200);
-  //   expect(response.body).to.have.key('token');
+  //   expect(response.body).to.have.property('token');
   // });
-  // afterEach(sinon.restore);
+  it('should return bad request without email', async function () {
+    const httpRequestBody = {
+      password: 'secrets_admin'
+    };
+
+    const response = await chai.request(app).post('/login').send(httpRequestBody);
+
+    expect(response.status).to.equal(400);
+    expect(response.body).to.deep.equal({ message: 'All fields must be filled' });
+  });
+
+  it('should return bad request without password', async function () {
+    const httpRequestBody = {
+      email: 'admin@admin.com'
+    };
+
+    const response = await chai.request(app).post('/login').send(httpRequestBody);
+
+    expect(response.status).to.equal(400);
+    expect(response.body).to.deep.equal({ message: 'All fields must be filled' });
+  });
+
+  it('should return unauthorized without an existing email', async function () {
+    const httpRequestBody = {
+      email: 'admin@admin.com',
+      password: 'secret_admin'
+    };
+    const response = await chai.request(app).post('/login').send(httpRequestBody);
+
+    expect(response.status).to.equal(500);
+    expect(response.body).to.have.property('message');
+  });
 });
