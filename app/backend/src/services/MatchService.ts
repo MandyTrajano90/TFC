@@ -9,4 +9,9 @@ export default class MatchService {
     const allMatches = await this.matchModel.findAll();
     return { status: mapStatusHTTP.ok, data: allMatches };
   }
+
+  public async getFilteredMatches(filter: boolean) {
+    const filteredMatches = await this.matchModel.filteredMatches(filter);
+    return { status: mapStatusHTTP.ok, data: filteredMatches };
+  }
 }

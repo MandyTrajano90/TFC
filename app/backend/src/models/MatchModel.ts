@@ -22,4 +22,25 @@ export default class MatchModel implements IMatchModel {
     });
     return matchesDbData;
   }
+
+  async filteredMatches(filter: boolean) {
+    const matchesInProgressData = await this.match.findAll({
+      where: {
+        inProgress: filter,
+      },
+      include: [
+        {
+          model: SequelizeTeam,
+          as: 'homeTeam',
+          attributes: ['teamName'],
+        },
+        {
+          model: SequelizeTeam,
+          as: 'awayTeam',
+          attributes: ['teamName'],
+        },
+      ],
+    });
+    return matchesInProgressData;
+  }
 }
