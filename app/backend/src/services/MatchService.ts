@@ -9,4 +9,9 @@ export default class MatchService {
     const allMatches = await this.matchModel.findAll(query);
     return { status: mapStatusHTTP.ok, data: allMatches };
   }
+
+  public async toggleInProgressMatch(id: number) {
+    await this.matchModel.updateMatch(id);
+    return { status: mapStatusHTTP.ok, data: { message: 'Finished' } };
+  }
 }
