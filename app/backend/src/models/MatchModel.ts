@@ -5,29 +5,11 @@ import SequelizeMatch from '../database/models/SequelizeMatch';
 export default class MatchModel implements IMatchModel {
   private match = SequelizeMatch;
 
-  async findAll() {
-    const matchesDbData = await this.match.findAll({
-      include: [
-        {
-          model: SequelizeTeam,
-          as: 'homeTeam',
-          attributes: ['teamName'],
-        },
-        {
-          model: SequelizeTeam,
-          as: 'awayTeam',
-          attributes: ['teamName'],
-        },
-      ],
-    });
-    return matchesDbData;
-  }
+  async findAll(q: string | undefined) {
+    const condition = q !== undefined ? { inProgress: q === 'true' } : {};
 
-  async filteredMatches(filter: boolean) {
     const matchesInProgressData = await this.match.findAll({
-      where: {
-        inProgress: filter,
-      },
+      where: condition,
       include: [
         {
           model: SequelizeTeam,
