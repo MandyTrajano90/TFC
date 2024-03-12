@@ -14,4 +14,9 @@ export default class MatchService {
     await this.matchModel.updateMatch(id);
     return { status: mapStatusHTTP.ok, data: { message: 'Finished' } };
   }
+
+  public async updateMatchScore(id: number, homeTeamGoals: number, awayTeamGoals: number) {
+    await this.matchModel.updateScore(id, homeTeamGoals, awayTeamGoals);
+    return { status: mapStatusHTTP.ok, data: { message: 'OK' } };
+  }
 }

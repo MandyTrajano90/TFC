@@ -93,4 +93,18 @@ describe('GET /matches', function () {
     expect(response.status).to.equal(200);
     expect(response.body).to.deep.equal(matchesInProgress);
   });
+
+  it('should return a 500 status code when an error occurs', async function () {
+    sinon.stub(SequelizeMatch, 'findAll').rejects();
+
+    const response = await chai.request(app).get('/matches');
+
+    expect(response.status).to.equal(500);
+  });
+
+  it('should return a 401 status code when an invalid query parameter is passed', async function () {
+    const response = await chai.request(app).patch('/matches/id/finish');
+
+    expect(response.status).to.equal(401);
+  });
 });

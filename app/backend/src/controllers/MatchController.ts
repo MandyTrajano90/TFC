@@ -16,4 +16,15 @@ export default class MatchController {
     const { status, data } = await this.matchService.toggleInProgressMatch(Number(id));
     return res.status(status).json(data);
   };
+
+  public updateMatchScore = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const { homeTeamGoals, awayTeamGoals } = req.body;
+    const { status, data } = await this.matchService.updateMatchScore(
+      Number(id),
+      homeTeamGoals,
+      awayTeamGoals,
+    );
+    return res.status(status).json(data);
+  };
 }

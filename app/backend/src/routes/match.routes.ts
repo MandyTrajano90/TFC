@@ -14,4 +14,9 @@ router.patch(
   (req, res) => matchController.toggleInProgressMatch(req, res),
 );
 
+router.patch(
+  '/:id',
+  LoginValidations.validateToken,
+  (req, res) => matchController.updateMatchScore(req, res),
+);
 export default router;
