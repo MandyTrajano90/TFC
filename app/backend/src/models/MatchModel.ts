@@ -1,6 +1,7 @@
 import SequelizeTeam from '../database/models/SequelizeTeam';
 import { IMatchModel } from '../Interfaces/IMatchModel';
 import SequelizeMatch from '../database/models/SequelizeMatch';
+import { INewMatch } from '../Interfaces/IMatch';
 
 export default class MatchModel implements IMatchModel {
   private match = SequelizeMatch;
@@ -37,5 +38,17 @@ export default class MatchModel implements IMatchModel {
       { where: { id } },
     );
     return match;
+  }
+
+  async findById(id: number) {
+    const match = await this.match.findByPk(id);
+    if (match === null) return null;
+    return match;
+  }
+
+  async createMatch(data: INewMatch) {
+    const match = await this.match.create({ ...data, inProgress: true });
+    const { homeTeamId, awayTeamId, id, homeTeamGoals, awayTeamGoals, inProgress } = match;
+    return { homeTeamId, awayTeamId, id, homeTeamGoals, awayTeamGoals, inProgress };
   }
 }

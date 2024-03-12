@@ -107,4 +107,5 @@ describe('GET /matches', function () {
 
     expect(response.status).to.equal(401);
   });
+
 });

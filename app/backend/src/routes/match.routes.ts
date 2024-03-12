@@ -19,4 +19,10 @@ router.patch(
   LoginValidations.validateToken,
   (req, res) => matchController.updateMatchScore(req, res),
 );
+
+router.post(
+  '/',
+  LoginValidations.validateToken,
+  (req, res) => matchController.createMatch(req, res),
+);
 export default router;
