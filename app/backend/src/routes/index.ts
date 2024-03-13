@@ -12,4 +12,3 @@ router.use('/matches', matchRouter);
 router.use('/leaderboard', leaderboardRouter);
 
 export default router;
-// os testes passaram e no comit n
