@@ -47,6 +47,10 @@ O projeto é composto de 4 entidades importantes para sua estrutura:
 
 
 
+https://github.com/user-attachments/assets/b9147bd0-9c17-4aba-8f85-6f9681fbe1a2
+
+
+
 </details>
 
 <!-- Olá, Tryber!
